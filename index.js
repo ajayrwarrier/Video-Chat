@@ -33,18 +33,16 @@ io.on("connection", function (socket) {
     socket.broadcast.to(roomName).emit("ready");
   });
 
-  socket.on("candidate", function (event) {
-    console.log("Candidate");
-    socket.broadcast.to(event.roomName).emit("candidate", event);
+  socket.on("candidate", function (candidate, roomName) {
+    console.log(candidate);
+    socket.broadcast.to(roomName).emit("candidate", candidate);
   });
 
-  socket.on("offer", function (event) {
-    console.log("Offer");
-    socket.broadcast.to(event.roomName).emit("offer", event);
+  socket.on("offer", function (offer, roomName) {
+    socket.broadcast.to(roomName).emit("offer", offer);
   });
 
-  socket.on("answer", function (event) {
-    console.log("Answer");
-    socket.broadcast.to(event.roomName).emit("answer", event);
+  socket.on("answer", function (answer, roomName) {
+    socket.broadcast.to(roomName).emit("answer", answer);
   });
 });

@@ -92,11 +92,7 @@ socket.on("ready", function () {
 });
 
 socket.on("candidate", function (candidate) {
-  var icecandidate = new RTCIceCandidate({
-    candidate: candidate.candidate,
-    sdpMid: candidate.sdpMid,
-    sdpMLineIndex: candidate.sdpMLineIndex,
-  });
+  var icecandidate = new RTCIceCandidate(candidate);
   rtcPeerConnection.addIceCandidate(icecandidate);
 });
 

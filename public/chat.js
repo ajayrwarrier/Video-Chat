@@ -1,16 +1,16 @@
-var socket = io.connect("http://localhost:4000");
-var divVideoChatLobby = document.getElementById("video-chat-lobby");
-var divVideoChat = document.getElementById("video-chat-room");
-var joinButton = document.getElementById("join");
-var userVideo = document.getElementById("user-video");
-var peerVideo = document.getElementById("peer-video");
-var roomInput = document.getElementById("roomName");
-var roomName = roomInput.value;
-var creator = false;
-var rtcPeerConnection;
-var userStream;
+let socket = io.connect("http://localhost:4000");
+let divVideoChatLobby = document.getElementById("video-chat-lobby");
+let divVideoChat = document.getElementById("video-chat-room");
+let joinButton = document.getElementById("join");
+let userVideo = document.getElementById("user-video");
+let peerVideo = document.getElementById("peer-video");
+let roomInput = document.getElementById("roomName");
+let roomName = roomInput.value;
+let creator = false;
+let rtcPeerConnection;
+let userStream;
 
-var iceServers = {
+let iceServers = {
   iceServers: [
     { urls: "stun:stun.services.mozilla.com" },
     { urls: "stun:stun.l.google.com:19302" },
@@ -92,7 +92,7 @@ socket.on("ready", function () {
 });
 
 socket.on("candidate", function (candidate) {
-  var icecandidate = new RTCIceCandidate(candidate);
+  let icecandidate = new RTCIceCandidate(candidate);
   rtcPeerConnection.addIceCandidate(icecandidate);
 });
 

@@ -2,20 +2,20 @@ const express = require("express");
 const socket = require("socket.io");
 const app = express();
 
-var server = app.listen(4000, function () {
+let server = app.listen(4000, function () {
   console.log("Server is running");
 });
 
 app.use(express.static("public"));
 
-var io = socket(server);
+let io = socket(server);
 
 io.on("connection", function (socket) {
   console.log("User Connected :" + socket.id);
 
   socket.on("join", function (roomName) {
-    var rooms = io.sockets.adapter.rooms;
-    var room = rooms.get(roomName);
+    let rooms = io.sockets.adapter.rooms;
+    let room = rooms.get(roomName);
 
     if (room == undefined) {
       socket.join(roomName);

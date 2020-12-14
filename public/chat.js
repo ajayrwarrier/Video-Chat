@@ -27,34 +27,37 @@ joinButton.addEventListener("click", function () {
 
 socket.on("created", function () {
   creator = true;
-  navigator.getUserMedia(
-    {
+
+  navigator.mediaDevices
+    .getUserMedia({
       audio: true,
       video: { width: 1280, height: 720 },
-    },
-    function (stream) {
+    })
+    .then(function (stream) {
+      /* use the stream */
       userStream = stream;
       divVideoChatLobby.style = "display:none";
       userVideo.srcObject = stream;
       userVideo.onloadedmetadata = function (e) {
         userVideo.play();
       };
-    },
-    function () {
+    })
+    .catch(function (err) {
+      /* handle the error */
       alert("Couldn't Access User Media");
-    }
-  );
+    });
 });
 
 socket.on("joined", function () {
   creator = false;
 
-  navigator.getUserMedia(
-    {
+  navigator.mediaDevices
+    .getUserMedia({
       audio: true,
       video: { width: 1280, height: 720 },
-    },
-    function (stream) {
+    })
+    .then(function (stream) {
+      /* use the stream */
       userStream = stream;
       divVideoChatLobby.style = "display:none";
       userVideo.srcObject = stream;
@@ -62,11 +65,11 @@ socket.on("joined", function () {
         userVideo.play();
       };
       socket.emit("ready", roomName);
-    },
-    function () {
+    })
+    .catch(function (err) {
+      /* handle the error */
       alert("Couldn't Access User Media");
-    }
-  );
+    });
 });
 socket.on("full", function () {
   alert("Room is Full, Can't Join");

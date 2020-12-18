@@ -10,6 +10,7 @@ let creator = false;
 let rtcPeerConnection;
 let userStream;
 
+// Contains the stun server URL we will be using.
 let iceServers = {
   iceServers: [
     { urls: "stun:stun.services.mozilla.com" },
@@ -24,6 +25,8 @@ joinButton.addEventListener("click", function () {
     socket.emit("join", roomName);
   }
 });
+
+// Triggered when a room is succesfully created.
 
 socket.on("created", function () {
   creator = true;
@@ -48,6 +51,8 @@ socket.on("created", function () {
     });
 });
 
+// Triggered when a room is succesfully joined.
+
 socket.on("joined", function () {
   creator = false;
 
@@ -71,9 +76,14 @@ socket.on("joined", function () {
       alert("Couldn't Access User Media");
     });
 });
+
+// Triggered when a room is full (meaning has 2 people).
+
 socket.on("full", function () {
   alert("Room is Full, Can't Join");
 });
+
+// Triggered when a peer has joined the room and ready to communicate.
 
 socket.on("ready", function () {
   if (creator) {
@@ -94,10 +104,14 @@ socket.on("ready", function () {
   }
 });
 
+// Triggered on receiving an ice candidate from the peer.
+
 socket.on("candidate", function (candidate) {
   let icecandidate = new RTCIceCandidate(candidate);
   rtcPeerConnection.addIceCandidate(icecandidate);
 });
+
+// Triggered on receiving an offer from the person who created the room.
 
 socket.on("offer", function (offer) {
   if (!creator) {
@@ -119,9 +133,13 @@ socket.on("offer", function (offer) {
   }
 });
 
+// Triggered on receiving an answer from the person who joined the room.
+
 socket.on("answer", function (answer) {
   rtcPeerConnection.setRemoteDescription(answer);
 });
+
+// Implementing the OnIceCandidateFunction which is part of the RTCPeerConnection Interface.
 
 function OnIceCandidateFunction(event) {
   console.log("Candidate");
@@ -129,6 +147,8 @@ function OnIceCandidateFunction(event) {
     socket.emit("candidate", event.candidate, roomName);
   }
 }
+
+// Implementing the OnTrackFunction which is part of the RTCPeerConnection Interface.
 
 function OnTrackFunction(event) {
   peerVideo.srcObject = event.streams[0];

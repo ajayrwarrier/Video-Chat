@@ -5,7 +5,7 @@ let joinButton = document.getElementById("join");
 let userVideo = document.getElementById("user-video");
 let peerVideo = document.getElementById("peer-video");
 let roomInput = document.getElementById("roomName");
-let roomName = roomInput.value;
+let roomName;
 let creator = false;
 let rtcPeerConnection;
 let userStream;
@@ -22,6 +22,7 @@ joinButton.addEventListener("click", function () {
   if (roomInput.value == "") {
     alert("Please enter a room name");
   } else {
+    roomName = roomInput.value;
     socket.emit("join", roomName);
   }
 });

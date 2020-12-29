@@ -149,15 +149,16 @@ socket.on("ready", function () {
     rtcPeerConnection.ontrack = OnTrackFunction;
     rtcPeerConnection.addTrack(userStream.getTracks()[0], userStream);
     rtcPeerConnection.addTrack(userStream.getTracks()[1], userStream);
-    rtcPeerConnection.createOffer(
-      function (offer) {
+    rtcPeerConnection
+      .createOffer()
+      .then((offer) => {
         rtcPeerConnection.setLocalDescription(offer);
         socket.emit("offer", offer, roomName);
-      },
-      function (error) {
+      })
+
+      .catch((error) => {
         console.log(error);
-      }
-    );
+      });
   }
 });
 
@@ -178,15 +179,16 @@ socket.on("offer", function (offer) {
     rtcPeerConnection.addTrack(userStream.getTracks()[0], userStream);
     rtcPeerConnection.addTrack(userStream.getTracks()[1], userStream);
     rtcPeerConnection.setRemoteDescription(offer);
-    rtcPeerConnection.createAnswer(
-      function (answer) {
+
+    rtcPeerConnection
+      .createAnswer()
+      .then((answer) => {
         rtcPeerConnection.setLocalDescription(answer);
         socket.emit("answer", answer, roomName);
-      },
-      function (error) {
+      })
+      .catch((error) => {
         console.log(error);
-      }
-    );
+      });
   }
 });
 

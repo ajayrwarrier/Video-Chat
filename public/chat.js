@@ -67,10 +67,12 @@ leaveRoomButton.addEventListener("click", function () {
     userVideo.srcObject.getTracks()[0].stop(); //Stops receiving audio track of User.
     userVideo.srcObject.getTracks()[1].stop(); //Stops receiving the Video track of User
   }
+  userVideo.srcObject = null;
   if (peerVideo.srcObject) {
     peerVideo.srcObject.getTracks()[0].stop(); //Stops receiving audio track of Peer.
     peerVideo.srcObject.getTracks()[1].stop(); //Stops receiving the Video track of Peer.
   }
+  peerVideo.srcObject = null;
 
   //Checks if there is peer on the other side and safely closes the existing connection established with the peer.
   if (rtcPeerConnection) {
@@ -150,7 +152,6 @@ socket.on("ready", function () {
     rtcPeerConnection.addTrack(userStream.getTracks()[0], userStream);
     rtcPeerConnection.addTrack(userStream.getTracks()[1], userStream);
 
-
     rtcPeerConnection
       .createOffer()
       .then((offer) => {
@@ -208,6 +209,7 @@ socket.on("leave", function () {
     peerVideo.srcObject.getTracks()[0].stop(); //Stops receiving audio track of Peer.
     peerVideo.srcObject.getTracks()[1].stop(); //Stops receiving video track of Peer.
   }
+  peerVideo.srcObject = null;
 
   //Safely closes the existing connection established with the peer who left.
 

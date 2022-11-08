@@ -14,9 +14,15 @@
             <button id="join">Join</button>
         </div>
         <div id="video-chat-room">
-            <video id="user-video"></video>
+            <video id="user-video" muted="muted" ></video>
             <video id="peer-video"></video>
         </div>
+
+        <div class="btn-group" id="btn-group" style="display: none;">
+            <button id ="muteButton">Mute</button>
+            <button id ="leaveRoomButton">Leave Room</button>
+            <button id ="hideCameraButton" >Hide Camera</button>
+          </div>
 
     </body>
     <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
